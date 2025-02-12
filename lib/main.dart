@@ -1,6 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weather_ai/core/app_router.dart';
+import 'package:weather_ai/core/di/service_locator.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  ServiceLocator.setup();
   runApp(const MyApp());
 }
 
@@ -9,13 +16,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      splitScreenMode: true,
+      minTextAdapt: true,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        onGenerateRoute: AppRouter.generateRoute,
       ),
-      home: const Text('Flutter Demo Home Page'),
     );
   }
 }
