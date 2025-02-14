@@ -3,7 +3,7 @@ import 'package:weather_ai/festures/auth/domain/entity/user.dart';
 
 class HomeScreen extends StatelessWidget {
   final User user;
-
+ // home screen
   const HomeScreen({super.key, required this.user});
 
   @override
