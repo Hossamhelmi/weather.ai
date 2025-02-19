@@ -7,7 +7,11 @@ class SignUpUsecase {
 
   SignUpUsecase(this._baseAuthRepo);
 
-  Future<Either<Exception, User>> call( String email,String password ,String fullName) async {
-    return await _baseAuthRepo.signUpWithEmailAndPassword(email, password, fullName);
+  Future<Either<Exception, User>> call(
+      {required String email,
+      required String password,
+      required String fullName}) async {
+    return await _baseAuthRepo.signUpWithEmailAndPassword(
+        email: email, password: password, fullName: fullName);
   }
 }
