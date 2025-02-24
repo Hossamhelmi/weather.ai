@@ -11,6 +11,7 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +30,11 @@ class LoginScreen extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text(AppStrings.loginSucessful)),
             );
-            Navigator.pushReplacementNamed(context, Routes.home,
-                arguments: state.user);
+            Navigator.pushReplacementNamed(
+              context,
+              Routes.home,
+              arguments: state.user,
+            );
           } else if (state is AuthError) {
             Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
@@ -62,18 +66,32 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 32.h),
-              const Text(AppStrings.email,
-                  style: TextStyle(color: Colors.white70)),
-              SizedBox(height: 8.h),
-              authTextField(emailController, AppStrings.email),
-              SizedBox(height: 16.h),
-              const Text(AppStrings.password,
-                  style: TextStyle(color: Colors.white70)),
-              SizedBox(height: 8.h),
-              authTextField(passwordController, AppStrings.password,
-                  isPassword: true),
-              SizedBox(height: 24.h),
-              SizedBox(height: 24.h),
+              Form(
+                key: loginFormKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(AppStrings.email,
+                        style: TextStyle(color: Colors.white70)),
+                    SizedBox(height: 8.h),
+                    authTextField(
+                        controller: emailController, hint: AppStrings.email),
+                    SizedBox(height: 16.h),
+                    const Text(
+                      AppStrings.password,
+                      style: TextStyle(
+                        color: Colors.white70,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    authTextField(
+                        controller: passwordController,
+                        hint: AppStrings.password,
+                        isPassword: true)
+                  ],
+                ),
+              ),
+              SizedBox(height: 48.h),
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -81,11 +99,14 @@ class LoginScreen extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 16.h, horizontal: 90.w),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
+                        borderRadius: BorderRadius.circular(15.r)),
                   ),
                   onPressed: () {
-                    context.read<AuthCubit>().login(emailController.text.trim(),
-                        passwordController.text.trim());
+                    if (loginFormKey.currentState!.validate()) {
+                      context.read<AuthCubit>().login(
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim());
+                    }
                   },
                   child: Text(AppStrings.login,
                       style: TextStyle(fontSize: 18.sp, color: Colors.white)),

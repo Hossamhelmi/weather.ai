@@ -7,7 +7,8 @@ class LoginUsecase {
 
   LoginUsecase(this._authRepository);
 
-  Future<Either<Exception, User>> call(String email,String password) async {
-    return await _authRepository.loginWithEmailAndPassword(email,password);
+  Future<Either<Exception, User>> call(String email, String password) async {
+    return await _authRepository.loginWithEmailAndPassword(
+        email: email, password: password);
   }
 }

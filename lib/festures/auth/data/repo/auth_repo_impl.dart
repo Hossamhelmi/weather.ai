@@ -5,20 +5,24 @@ import 'package:weather_ai/festures/auth/domain/entity/user.dart';
 import 'package:weather_ai/festures/auth/domain/repo/base_auth_repo.dart';
 
 class AuthRepoImpl implements BaseAuthRepo {
-  final RemoteDataSource remoteDataSource;
+  final RemoteDataSourceAuth remoteDataSource;
 
   AuthRepoImpl(this.remoteDataSource);
 
   @override
   Future<Either<Exception, User>> signUpWithEmailAndPassword(
-      String email, String password, String fullName) async {
+      {required String email,
+      required String password,
+      required String fullName}) async {
     try {
-      final userModel =
-          await remoteDataSource.signUp(email, password, fullName);
-      return Right( User(
-      email: userModel.email,
-      fullname: userModel.fullname!,
-  ),);
+      final userModel = await remoteDataSource.signUp(
+          email: email, password: password, fullname: fullName);
+      return Right(
+        User(
+          email: userModel.email,
+          fullname: userModel.fullname!,
+        ),
+      );
     } on Exception catch (e) {
       return Left(e);
     }
@@ -26,13 +30,16 @@ class AuthRepoImpl implements BaseAuthRepo {
 
   @override
   Future<Either<Exception, User>> loginWithEmailAndPassword(
-      String email, String password) async {
+      {required String email, required String password}) async {
     try {
-      UserModel userModel = await remoteDataSource.logIn(email, password);
-     return Right( User(
-      email: userModel.email,
-      fullname: userModel.fullname!,
-  ),);
+      UserModel userModel =
+          await remoteDataSource.logIn(email: email, password: password);
+      return Right(
+        User(
+          email: userModel.email,
+          fullname: userModel.fullname!,
+        ),
+      );
     } on Exception catch (e) {
       return Left(e);
     }

@@ -11,6 +11,7 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> signupformKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,7 @@ class SignUpScreen extends StatelessWidget {
             showDialog(
               context: context,
               barrierDismissible: false,
-              builder: (_) =>
-                  const Center(child: CircularProgressIndicator()),
+              builder: (_) => const Center(child: CircularProgressIndicator()),
             );
           } else if (state is AuthSuccess) {
             Navigator.pop(context);
@@ -45,70 +45,78 @@ class SignUpScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Center(
+              Center(
                 child: Text(
                   AppStrings.signUp,
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 32.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
-              const Center(
+              SizedBox(height: 8.h),
+              Center(
                 child: Text(
                   AppStrings.signUpToContinue,
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                 ),
               ),
-              const SizedBox(height: 32),
-    
-              const Text(AppStrings.fullName,
-                  style: TextStyle(color: Colors.white70)),
-              const SizedBox(height: 8),
-              authTextField(fullNameController, AppStrings.fullName),
-    
-              const SizedBox(height: 16),
-    
-              const Text(AppStrings.email,
-                  style: TextStyle(color: Colors.white70)),
-              const SizedBox(height: 8),
-              authTextField(emailController, AppStrings.email),
-    
-              const SizedBox(height: 16),
-    
-              const Text(AppStrings.password,
-                  style: TextStyle(color: Colors.white70)),
-              const SizedBox(height: 8),
-              authTextField(passwordController, AppStrings.password,
-                  isPassword: true),
-    
+              SizedBox(height: 32.h),
+              Form(
+                key: signupformKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(AppStrings.fullName,
+                        style: TextStyle(color: Colors.white70)),
+                    SizedBox(height: 8.h),
+                    authTextField(
+                        controller: fullNameController,
+                        hint: AppStrings.fullName),
+                    SizedBox(height: 16.h),
+                    const Text(AppStrings.email,
+                        style: TextStyle(color: Colors.white70)),
+                    SizedBox(height: 8.h),
+                    authTextField(
+                        controller: emailController, hint: AppStrings.email),
+                    SizedBox(height: 16.h),
+                    const Text(AppStrings.password,
+                        style: TextStyle(color: Colors.white70)),
+                    SizedBox(height: 8.h),
+                    authTextField(
+                        controller: passwordController,
+                        hint: AppStrings.password,
+                        isPassword: true),
+                  ],
+                ),
+              ),
               SizedBox(height: 48.h),
-    
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue, // Button color
-                    padding: EdgeInsets.symmetric(
-                        vertical: 16.h, horizontal: 90.w),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 16.h, horizontal: 90.w),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                   ),
                   onPressed: () {
-                    context.read<AuthCubit>().signUp(
-                          email: emailController.text.trim(),
-                          fullname: fullNameController.text.trim(),
-                          password: passwordController.text.trim(),
-                        );
+                    if (signupformKey.currentState!.validate()) {
+                      context.read<AuthCubit>().signUp(
+                            email: emailController.text.trim(),
+                            fullname: fullNameController.text.trim(),
+                            password: passwordController.text.trim(),
+                          );
+                    }
                   },
-                  child: Text(AppStrings.next,
-                      style: TextStyle(fontSize: 18.sp, color: Colors.white)),
+                  child: Text(
+                    AppStrings.next,
+                    style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                  ),
                 ),
               ),
-    
               SizedBox(height: 16.h),
-    
               Center(
                 child: TextButton(
                   onPressed: () {

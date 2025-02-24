@@ -20,8 +20,8 @@ class AuthCubit extends Cubit<AuthState> {
       required String fullname}) async {
     emit(AuthLoading());
 
-    final Either<Exception, User> result =
-        await signUpUsecase(email, password, fullname);
+    final Either<Exception, User> result = await signUpUsecase(
+        email: email, password: password, fullName: fullname);
 
     result.fold(
       (erorr) => emit(AuthError(erorr.toString())),
@@ -29,7 +29,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login({required String email, required String password}) async {
     emit(AuthLoading());
 
     final Either<Exception, User> result = await loginUsecase(email, password);
