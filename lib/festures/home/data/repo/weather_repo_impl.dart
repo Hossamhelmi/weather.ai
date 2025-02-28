@@ -14,11 +14,11 @@ class WeatherRepoImpl extends BaseWeatherRepo {
     try {
       final weatherModel = await remoteDataSourceWeather.getWeather(lat, lon);
       
-          weatherModel.forecast!.forecastday!.forEach((e) {
+          for (var e in weatherModel.forecast!.forecastday!) {
         DateTime parsedDate = DateFormat("yyyy-MM-dd").parse(e.date!);
         String formattedDate = DateFormat("EEE, d").format(parsedDate);
         e.date = formattedDate;
-      }) ;
+      }
 
       return Right(
         Weather(
@@ -29,6 +29,17 @@ class WeatherRepoImpl extends BaseWeatherRepo {
           days: weatherModel.forecast!.forecastday!,
         ),
       );
+    } catch (e) {
+      return Left(
+        Exception(e.toString()),
+      );
+    }
+  }
+  @override
+  Future<Either<Exception, dynamic>> getPrediction(List<int> features) async {
+    try {
+      final prediction = await remoteDataSourceWeather.getPrediction(features);
+      return Right(prediction);
     } catch (e) {
       return Left(
         Exception(e.toString()),

@@ -14,4 +14,27 @@ class RemoteDataSourceWeather {
       throw Exception(e.message);
     }
   }
+
+  Future getPrediction(List<int> features) async {
+    // Create the POST request body
+    Map<String, dynamic> body = {'features': features};
+
+    // Send the POST request
+    final response = await _dio.post(
+      'http://192.168.1.15:5001/predict',
+      data: body,
+      options: Options(
+        headers: {'Content-Type': 'application/json'},
+      ),
+    );
+
+    // Handle the response
+    if (response.statusCode == 200) {
+      final prediction = response.data['prediction'];
+      return prediction;
+    }
+    else {
+      throw Exception('Failed to get prediction');
+    }
+  }
 }

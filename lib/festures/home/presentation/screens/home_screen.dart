@@ -9,7 +9,8 @@ import 'package:weather_ai/core/utilites/constants.dart';
 import 'package:weather_ai/core/utilites/strings.dart';
 
 import 'package:weather_ai/festures/auth/domain/entity/user.dart';
-import 'package:weather_ai/festures/home/presentation/cubits/cubit/weather_cubit.dart';
+import 'package:weather_ai/festures/home/presentation/cubits/weather_cubit/weather_cubit.dart';
+import 'package:weather_ai/festures/home/presentation/widgets/predection_widget.dart';
 import 'package:weather_ai/festures/home/presentation/widgets/weather_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -62,34 +63,38 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       backgroundColor: myAppBackgroundColor,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Column(
-              children: [
-                Text(
-                  AppStrings.hello,
-                  style: GoogleFonts.poppins(
-                      fontSize: 40.sp,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  widget.user.fullname,
-                  style: GoogleFonts.poppins(
-                    fontSize: 18.sp,
-                    color: Colors.white,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    AppStrings.hello,
+                    style: GoogleFonts.poppins(
+                        fontSize: 40.sp,
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            WeatherWidget(),
-            SizedBox(height: 30.h),
-          ],
+                  Text(
+                    widget.user.fullname,
+                    style: GoogleFonts.poppins(
+                      fontSize: 18.sp,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              WeatherWidget(),
+              SizedBox(height: 30.h),
+              PredectionWidget(),
+              SizedBox(height: 30.h),
+            ],
+          ),
         ),
       ),
     );

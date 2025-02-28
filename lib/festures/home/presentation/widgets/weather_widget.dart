@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_ai/core/utilites/strings.dart';
-import 'package:weather_ai/festures/home/presentation/cubits/cubit/weather_cubit.dart';
+import 'package:weather_ai/festures/home/presentation/cubits/weather_cubit/weather_cubit.dart';
 import 'package:weather_ai/festures/home/presentation/widgets/weather_info_card.dart';
 
 class WeatherWidget extends StatelessWidget {
@@ -48,17 +48,7 @@ class WeatherWidget extends StatelessWidget {
                           itemBuilder: (context, index) {
                             bool isSelected = index ==
                                 context.read<WeatherCubit>().calenderIndex;
-                              /*  
-                            DateTime parsedDate = DateFormat("yyyy-MM-dd")
-                                .parse(context
-                                    .read<WeatherCubit>()
-                                    .myWeather
-                                    .days[index]
-                                    .date!);
-
-                            String formattedDate =
-                                DateFormat("EEE, d").format(parsedDate);
-                                */
+                            
                             return GestureDetector(
                               onTap: () {
                                 context

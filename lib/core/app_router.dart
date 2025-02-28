@@ -6,7 +6,8 @@ import 'package:weather_ai/festures/auth/presentation/cubits/auth_cubit/auth_cub
 
 import 'package:weather_ai/festures/auth/presentation/screens/login_screen.dart';
 import 'package:weather_ai/festures/auth/presentation/screens/sign_up_screen.dart';
-import 'package:weather_ai/festures/home/presentation/cubits/cubit/weather_cubit.dart';
+import 'package:weather_ai/festures/home/presentation/cubits/predection_cubit/predection_cubit.dart';
+import 'package:weather_ai/festures/home/presentation/cubits/weather_cubit/weather_cubit.dart';
 import 'package:weather_ai/festures/home/presentation/screens/home_screen.dart';
 
 class Routes {
@@ -33,8 +34,15 @@ class AppRouter {
         );
       case Routes.home:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => WeatherCubit(sl()),
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => WeatherCubit(sl()),
+                    ),
+                    BlocProvider(
+                      create: (context) => PredectionCubit(sl()),
+                    )
+                  ],
                   child: HomeScreen(
                     user: settings.arguments as User,
                   ),
