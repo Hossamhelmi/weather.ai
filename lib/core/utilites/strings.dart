@@ -22,5 +22,6 @@ class AppStrings {
   static const String pleaseEnterAValidName = "Please enter a valid name";
   static const String humidity = "Humidity";
   static const String wind = "Wind";
+  static const String getPredection = "get predection";
 
 }
